@@ -1,0 +1,130 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#4b19d4"><meta name="description" content="Find trusted local services and skilled professionals with SkillLink NG."><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><title>SkillLink NG</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#ddd;font-family:Arial;color:#17172a}.app{max-width:430px;margin:auto;min-height:100vh;background:#f7f7fb}.screen{display:none;min-height:100vh;padding-bottom:80px}.active{display:block}header{padding:18px;background:#fff}.brand{font-size:22px;font-weight:800;color:#4b19d4}.brand span{color:#e7b900}h1{font-size:25px;margin:12px 0 5px}.muted{color:#737487;font-size:13px}.search{display:flex;gap:8px;background:#f2f2f7;border-radius:12px;padding:12px;margin-top:14px}.search input,input,select,textarea{width:100%;border:1px solid #e4e4ed;border-radius:11px;padding:12px;background:#fff;font-size:14px;outline:0}.search input{border:0;background:transparent;padding:0}.section{padding:18px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.cat,.card{background:#fff;border:1px solid #e5e5ee;border-radius:14px}.cat{padding:12px 4px;text-align:center;font-size:11px;font-weight:700}.cat b{display:block;font-size:22px;margin-bottom:5px}.card{padding:14px;margin:9px 0}.row{display:flex;gap:11px;align-items:center}.avatar{width:48px;height:48px;border-radius:13px;background:#eee9ff;color:#4b19d4;display:grid;place-items:center;font-weight:800}.card h3{margin:0 0 4px;font-size:15px}.card p{margin:3px 0;color:#707184;font-size:12px}.price{font-weight:800;margin-top:8px}.hero{margin:0 18px;padding:18px;border-radius:16px;background:linear-gradient(135deg,#281064,#6c2ce0);color:white}.hero button{margin-top:9px;background:#ffc928;border:0;border-radius:8px;padding:9px;font-weight:800}.btn{width:100%;padding:13px;border:0;border-radius:11px;background:#4b19d4;color:white;font-weight:800}.btn.alt{margin-top:8px;background:#eee9ff;color:#4b19d4}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.profile{margin:0 18px;background:#fff;border-radius:17px;overflow:hidden;border:1px solid #e5e5ee}.cover{height:110px;background:linear-gradient(135deg,#281064,#7131e7)}.profilebody{padding:0 17px 18px}.bigavatar{width:70px;height:70px;margin-top:-35px;border:4px solid white;border-radius:50%;background:#eee9ff;color:#4b19d4;display:grid;place-items:center;font-weight:800;font-size:22px}.auth{padding:35px 20px}.logo{text-align:center;font-size:28px;font-weight:900;color:#4b19d4;margin:20px}.logo span{color:#e7b900}.toast{display:none;position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#17172a;color:white;padding:11px 15px;border-radius:10px;font-size:12px;z-index:20}nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);height:70px;background:white;border-top:1px solid #e5e5ee;display:grid;grid-template-columns:repeat(5,1fr);z-index:5}nav button{border:0;background:none;color:#777;font-size:10px}nav button.active{color:#4b19d4;font-weight:800}nav span{display:block;font-size:21px}
+</style></head><body><div class="app">
+
+<section id="home" class="screen active"><header><div class="brand">SkillLink<span>NG</span></div><h1 id="hello">Find trusted local services</h1><div class="muted">Connect customers with skilled people near them.</div><div class="search">🔎<input id="hs" placeholder="Search services..." oninput="search(this.value)"></div></header>
+<div class="section"><h2>Popular services</h2><div class="grid">
+<div class="cat" onclick="search('Graphic Design')"><b>🎨</b>Design</div><div class="cat" onclick="search('Phone Repair')"><b>📱</b>Phone Repair</div><div class="cat" onclick="search('Barber')"><b>✂️</b>Barber</div><div class="cat" onclick="search('Photography')"><b>📷</b>Photography</div><div class="cat" onclick="search('Cleaning')"><b>🧹</b>Cleaning</div><div class="cat" onclick="search('Tutoring')"><b>🎓</b>Tutoring</div></div></div>
+<div class="hero"><b>Have a skill?</b><br><small>Put your service in front of customers.</small><br><button onclick="show('post')">Post your service</button></div><div class="section"><h2>Featured providers</h2><div id="featured"></div><p class="muted">Prototype version: listings are saved on this device only.</p></div></section>
+
+<section id="browse" class="screen"><header><div class="brand">SkillLink<span>NG</span></div><h1>Find a Service</h1><div class="search">🔎<input id="bs" placeholder="Search by service..." oninput="search(this.value)"></div></header><div class="section" id="results"></div></section>
+
+<section id="details" class="screen"><header><button onclick="show('browse')" style="border:0;background:none;font-size:22px">←</button></header><div class="profile"><div class="cover"></div><div class="profilebody"><div class="bigavatar" id="da"></div><h2 id="dn"></h2><div id="dm" class="muted"></div><p id="dd"></p><h3 id="ds"></h3><div class="price" id="dp"></div><button class="btn" style="margin-top:14px" onclick="contact()">💬 Contact on WhatsApp</button><button class="btn alt" onclick="toast('Reviews will be connected next')">⭐ Leave a Review</button></div></div></section>
+
+<section id="post" class="screen"><header><h1>Post Your Service</h1><div class="muted">Create a listing customers can discover.</div></header><form class="section" onsubmit="addService(event)">
+<div class="field"><label>Your name</label><input id="pn" required></div><div class="field"><label>Service</label><select id="pt"><option>Graphic Design</option><option>Phone Repair</option><option>Barber</option><option>Photography</option><option>Cleaning</option><option>Tutoring</option><option>Fashion & Tailoring</option><option>Repairs & Maintenance</option></select></div>
+<div class="field"><label>Location</label><input id="pl" placeholder="e.g. Ilesa, Osun" required></div><div class="field"><label>Starting price (₦)</label><input id="pp" type="number" required></div><div class="field"><label>WhatsApp number</label><input id="pw" required></div><div class="field"><label>About your service</label><textarea id="px" required></textarea></div><button class="btn">Publish Service</button></form></section>
+
+<section id="login" class="screen"><div class="auth"><div class="logo">SkillLink<span>NG</span></div><h1>Create your account</h1><div class="muted">Your account lets you post and manage services.</div><div class="field"><label>Full name</label><input id="an"></div><div class="field"><label>Email</label><input id="ae" type="email"></div><div class="field"><label>Password</label><input id="ap" type="password"></div><button class="btn" onclick="signup()">Create account</button></div></section>
+
+<section id="account" class="screen"><header><div class="brand">SkillLink<span>NG</span></div><h1>My Account</h1></header><div class="section"><div class="card"><div class="row"><div class="avatar" id="aa">GU</div><div><h3 id="acn">Guest User</h3><p id="ace">Not signed in</p></div></div></div><div class="card" onclick="show('post')">➕ <b>Post a Service</b><p>Create a new service listing.</p></div><div class="card" onclick="toast('Your listings will appear here')">📋 <b>My Services</b><p>Manage your published services.</p></div></div></section>
+
+<nav><button id="nh" class="active" onclick="show('home')"><span>⌂</span>Home</button><button id="nb" onclick="show('browse')"><span>⌕</span>Find</button><button id="np" onclick="show('post')"><span>⊕</span>Post</button><button onclick="show('login')"><span>♙</span>Join</button><button id="na" onclick="show('account')"><span>◯</span>Account</button></nav><div id="toast" class="toast"></div></div>
+
+<script>
+const defaultServices = [
+ {name:'John Graphics',service:'Graphic Design',location:'Ilesa, Osun',price:2000,phone:'08000000000',desc:'Logo, flyer and social media designs.',avatar:'JG'},
+ {name:'Ayo Phone Fix',service:'Phone Repair',location:'Ilesa, Osun',price:3000,phone:'08000000001',desc:'Screen, charging port and software repairs.',avatar:'AP'},
+ {name:'Mide Cuts',service:'Barber',location:'Lagos, Nigeria',price:1500,phone:'08000000002',desc:'Modern cuts and clean grooming.',avatar:'MC'},
+ {name:'Tola Photos',service:'Photography',location:'Osun, Nigeria',price:10000,phone:'08000000003',desc:'Events, portraits and outdoor photography.',avatar:'TP'}
+];
+let services = loadServices();
+let current = null;
+function loadServices(){
+ try { const saved=localStorage.getItem('skilllink_services'); return saved ? JSON.parse(saved) : defaultServices.slice(); }
+ catch(e){ return defaultServices.slice(); }
+}
+function saveServices(){ try { localStorage.setItem('skilllink_services', JSON.stringify(services)); } catch(e){} }
+function show(id){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+ const m={home:'nh',browse:'nb',post:'np',account:'na'}[id];
+ if(m) document.getElementById(m).classList.add('active');
+ window.scrollTo(0,0);
+}
+function card(s){
+ const encoded=encodeURIComponent(JSON.stringify(s));
+ return '<div class="card" role="button" tabindex="0" onclick="openDetailsEncoded(\''+encoded+'\')" onkeydown="if(event.key===\'Enter\')openDetailsEncoded(\''+encoded+'\')"><div class="row"><div class="avatar">'+escapeHTML(s.avatar)+'</div><div><h3>'+escapeHTML(s.name)+'</h3><p>'+escapeHTML(s.service)+' · 📍 '+escapeHTML(s.location)+'</p><p>⭐ Provider listing</p></div></div><div class="price">From ₦'+Number(s.price).toLocaleString()+'</div></div>';
+}
+function escapeHTML(value){
+ return String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function render(){
+ document.getElementById('featured').innerHTML=services.slice(0,3).map(card).join('');
+ document.getElementById('results').innerHTML=services.length ? services.map(card).join('') : '<p class="muted">No services have been posted yet.</p>';
+}
+function search(q){
+ show('browse');
+ document.getElementById('bs').value=q;
+ document.getElementById('hs').value=q;
+ const f=services.filter(s=>(s.name+' '+s.service+' '+s.location).toLowerCase().includes(q.toLowerCase()));
+ document.getElementById('results').innerHTML=f.length ? f.map(card).join('') : '<div class="muted" style="padding:25px;text-align:center">No matching services yet.</div>';
+}
+function openDetailsEncoded(value){
+ try { current=JSON.parse(decodeURIComponent(value)); openDetails(current); } catch(e){ toast('Could not open this listing.'); }
+}
+function openDetails(s){
+ current=s; show('details');
+ document.getElementById('da').textContent=s.avatar;
+ document.getElementById('dn').textContent=s.name;
+ document.getElementById('dm').textContent='📍 '+s.location;
+ document.getElementById('dd').textContent=s.desc;
+ document.getElementById('ds').textContent=s.service;
+ document.getElementById('dp').textContent='From ₦'+Number(s.price).toLocaleString();
+}
+function contact(){
+ if(!current || !current.phone){ toast('This provider has no WhatsApp number yet.'); return; }
+ let number=String(current.phone).replace(/\D/g,'');
+ if(number.startsWith('0')) number='234'+number.slice(1);
+ if(number.length===10) number='234'+number;
+ if(number.length<10){ toast('Please check the provider phone number.'); return; }
+ const message=encodeURIComponent('Hello '+current.name+', I found your '+current.service+' service on SkillLink NG. Is it available?');
+ window.open('https://wa.me/'+number+'?text='+message,'_blank','noopener');
+}
+function addService(e){
+ e.preventDefault();
+ const phone=document.getElementById('pw').value.trim();
+ if(phone.replace(/\D/g,'').length<10){ toast('Enter a valid WhatsApp number.'); return; }
+ const s={
+  name:document.getElementById('pn').value.trim(),
+  service:document.getElementById('pt').value,
+  location:document.getElementById('pl').value.trim(),
+  price:Number(document.getElementById('pp').value),
+  phone:phone,
+  desc:document.getElementById('px').value.trim(),
+  avatar:document.getElementById('pn').value.trim().slice(0,2).toUpperCase()
+ };
+ services.unshift(s); saveServices(); render(); toast('Service saved on this device.');
+ e.target.reset(); setTimeout(()=>show('browse'),500);
+}
+function signup(){
+ const name=document.getElementById('an').value.trim();
+ const email=document.getElementById('ae').value.trim();
+ const password=document.getElementById('ap').value;
+ if(!name || !email || password.length<6){ toast('Enter your name, email and a 6+ character password'); return; }
+ // This prototype stores only the display profile, never the password.
+ try { localStorage.setItem('skilllink_profile',JSON.stringify({name,email})); } catch(e){}
+ document.getElementById('acn').textContent=name;
+ document.getElementById('ace').textContent=email;
+ document.getElementById('aa').textContent=name.slice(0,2).toUpperCase();
+ document.getElementById('hello').textContent='Welcome, '+name.split(' ')[0]+'! 👋';
+ toast('Demo profile created on this device. Online authentication is not connected yet.');
+ setTimeout(()=>show('account'),700);
+}
+function toast(m){
+ const el=document.getElementById('toast');
+ el.textContent=m; el.style.display='block';
+ clearTimeout(window.skilllinkToastTimer);
+ window.skilllinkToastTimer=setTimeout(()=>el.style.display='none',2600);
+}
+function restoreProfile(){
+ try{
+  const p=JSON.parse(localStorage.getItem('skilllink_profile')||'null');
+  if(p){ document.getElementById('acn').textContent=p.name; document.getElementById('ace').textContent=p.email; document.getElementById('aa').textContent=p.name.slice(0,2).toUpperCase(); document.getElementById('hello').textContent='Welcome, '+p.name.split(' ')[0]+'! 👋'; }
+ }catch(e){}
+}
+render(); restoreProfile();
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{})); }
+</script></body></html>
